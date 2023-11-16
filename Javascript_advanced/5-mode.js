@@ -14,35 +14,35 @@ function main () {
     let darkMode = changeMode(12, 'bold', 'capitalize', 'black', 'white')
     let screamMode = changeMode(12, 'normal', 'lowercase', 'white', 'black')
 
-    // Add a paragraph to the body
+    // Add paragraph to the body
     let paragraph = document.createElement("p");
     let textNode = document.createTextNode("Welcome Holberton!");
     paragraph.appendChild(textNode);
     document.body.appendChild(paragraph);
 
-    // Add a button to the body with the text Spooky
-    let btn = document.createElement("button");
-    btn.innerHTML = "Spooky";
-    btn.onclick = function () {
+    // Adds button to the body with the text 'Spooky mode'
+    let button = document.createElement("button");
+    button.innerHTML = "Spooky";
+    button.onclick = function () {
         spooky();
     }
-    document.body.appendChild(btn);
+    document.body.appendChild(button);
 
-    // Add a button to the body with the text Dark mode
-    btn = document.createElement("button");
-    btn.innerHTML = "Dark mode";
-    btn.onclick = function () {
+    // Adds button to the body with the text 'Dark mode'
+    button = document.createElement("button");
+    button.innerHTML = "Dark mode";
+    button.onclick = function () {
         darkMode();
     }
-    document.body.appendChild(btn);
+    document.body.appendChild(button);
 
-    // Add a button to the body with the text Scream mode
-    btn = document.createElement("button");
-    btn.innerHTML = "Scream mode";
-    btn.onclick = function () {
+    // Adds button to the body with the text 'Scream mode'
+    button = document.createElement("button");
+    button.innerHTML = "Scream mode";
+    button.onclick = function () {
         screamMode();
     }
-    document.body.appendChild(btn);
+    document.body.appendChild(button);
 }
 
 main();
