@@ -1,6 +1,6 @@
 function welcomeMessage (fullName) {
     return function () {
-        console.log('Welcome ' + fullName);
+        alert('Welcome ' + fullName);
     }
 }
 
