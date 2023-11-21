@@ -3,47 +3,65 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Task 1</title>
-    <script src="https://code.jquery.com/jquery.min.js"></script>
-    <script type="application/javascript">
-        </script>
+    <title>Task 7</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+</head>
 
-        <script type="application/javascript">
-            $(document).ready(function() {
-                function createFamilyTree() {
-                    let family = "<table>";
-                            family += "<thead>"
-                                family += "<tr>";
-                                    family += "<th>Firstname</th>";
-                                    family += "<th>Lastname</th>";
-                                family += "</tr>";
-                            family += "</thead>";
-                            family += "<tbody>";
-                                family += "<tr>";
-                                    family += "<td>Guillaume</th>";
-                                    family += "<td>Salva</th>";
-                                family += "</tr>";
-                                family += "<tr>";
-                                    family += "<td>Paulette</th>";
-                                    family += "<td>Salva</th>";
-                                family += "</tr>";
-                                family += "<tr>";
-                                    family += "<td>Antoine</th>";
-                                    family += "<td>Salva</th>";
-                                family += "</tr>";
-                            family += "</tbody>";
-                        family += "</table>";
-                    
-                    $("body").append(family);
+<body>
+
+    <script type="text/javascript">
+        function createSearchForm() {
+            $('body').append(
+                $('<form>').submit(function(event) {
+                    event.preventDefault();
+                    queryWikipedia($('input[type="text"]').val());
+                }).append(
+                    $('<input>').attr('type', 'text'),
+                    $('<input>').attr('type', 'submit').val('Search')
+                ),
+                $('<ul>')
+            );
+        }
+
+        function addNewArticle(id, title, snippet) {
+            var li = $('<li>').append(
+                $('<p>').append(
+                    $('<span>').text(id + ' - '),
+                    $('<b>').text(title)
+                ),
+                $('<p>').html(snippet)
+            );
+            $('ul').append(li);
+        }
+
+        function queryWikipedia(search) {
+            $.ajax({
+                url: 'https://en.wikipedia.org/w/api.php',
+                data: {
+                    action: 'query',
+                    list: 'search',
+                    srsearch: search,
+                    format: 'json',
+                    origin: '*'
+                },
+                dataType: 'jsonp',
+                success: function(data) {
+                    var results = data.query.search;
+                    results.forEach(function(result) {
+                        addNewArticle(result.pageid, result.title, result.snippet);
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching data:', error);
                 }
-                createFamilyTree();
             });
-        </script>
+        }
 
-    </head>
+        $(document).ready(function() {
+            createSearchForm();
+        });
+    </script>
 
-    <body>
-
-    </body>
+</body>
 
 </html>
