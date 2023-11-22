@@ -3,6 +3,61 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="src/index.js"></script>
+  <script src="src/1-index.js"></script>
+  <title>Expiration of Cookie</title>
+</head>
+<body>
+  <main>
+    <h1>Login to the website</h1>
+    <form id="log">
+      <input type="text" placeholder="Firstname" id="firstname" required>
+      <input type="text" placeholder="Email" id="email" required>
+      <input type="submit" value="Log me in">
+    </form>
 
-//Please don't grade until after PLD
+    <h1>Cookies</h1>
+    <button id="btn-show-cookie">Show the cookies</button>
+  </main>
+
+  <script>
+    function setCookies(e) {
+      e.preventDefault();
+      const firstname = document.getElementById('firstname').value;
+      const email = document.getElementById('email').value;
+      // Date of expiration
+      let d = new Date();
+      const days = 10;
+      d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+      const date = "expires=" + d.toUTCString();
+
+      const cookie = `${firstname}=${email}; ${date};path=/`;
+
+      document.cookie = cookie;
+    }
+
+    function showCookies(e) {
+      const p = document.createElement('p');
+
+      const decodeCookie = decodeURIComponent(document.cookie);
+      const all = decodeCookie.split(';');
+      let cookies = '<strong>Cookies:</strong> ';
+
+      for (let i = 0; i < all.length; ++i) {
+        const cookie = all[i].trim(); // Trim the cookie value
+        cookies += ` "${cookie}"`;
+      }
+
+      p.innerHTML = cookies;
+      document.querySelector('main').append(p);
+    }
+
+    document.addEventListener("DOMContentLoaded", function(event) {
+      const addforme = document.getElementById('log');
+      const addbtne = document.getElementById('btn-show-cook');
+
+      addforme.addEventListener('submit', setCookies);
+      addbtne.addEventListener('click', showCookies);
+    });
+  </script>
+</body>
+</html>
