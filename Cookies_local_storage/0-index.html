@@ -16,7 +16,41 @@
     </form>
 
     <h1>Cookies</h1>
-    <button id="btn-show-cook">Show the cookies</button>
+    <button id="btn-show-cookie">Show the cookies</button>
   </main>
+
+  <script>
+    function setCookies(e) {
+      e.preventDefault();
+      const firstname = document.getElementById('firstname').value;
+      const email = document.getElementById('email').value;
+
+      document.cookie = `${firstname}=${email};`;
+    }
+
+    function showCookies(e) {
+      const p = document.createElement('p');
+
+      const decodeCookie = decodeURIComponent(document.cookie);
+      const all = decodeCookie.split(';');
+      let cookies = '<strong>Cookies:</strong> ';
+
+      for (let i = 0; i < all.length; ++i) {
+        const cookie = all[i].trim(); // Trim the cookie value
+        cookies += ` "${cookie}"`;
+      }
+
+      p.innerHTML = cookies;
+      document.querySelector('main').append(p);
+    }
+
+    document.addEventListener("DOMContentLoaded", function(event) {
+      const addforme = document.getElementById('log');
+      const addbtne = document.getElementById('btn-show-cookie');
+
+      addforme.addEventListener('submit', setCookies);
+      addbtne.addEventListener('click', showCookies);
+    });
+  </script>
 </body>
 </html>
