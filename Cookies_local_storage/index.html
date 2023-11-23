@@ -3,80 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task 4</title>
-    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/src/js.cookie.min.js"></script>
+    <script src="src/5-index.js"></script>
+    <title>Session storage</title>
 </head>
 <body>
+    <main></main>
+<script>
+// Session storage
+function addItemToCart(item) {
+    sessionStorage.setItem(item, "true");
+}
 
-    <script>
-        function setCookiesAndShowWelcomeMessage() {
-            let firstname = document.getElementById('firstname').value;
-            let email = document.getElementById('email').value;
+function createStore() {
+    let list = document.createElement('ul');
+    const availableItems = ['Shampoo', 'Soap', 'Sponge', 'Water'];
 
-            let expiryDate = new Date();
-            expiryDate.setTime(expiryDate.getTime() + (10 * 24 * 60 * 60 * 1000));
+    for (x in availableItems) {
+    list.innerHTML += `<li class="item">${availableItems[x]}</li>`;
+    }
+    document.querySelector('main').append(list);
 
-            Cookies.set('firstname', firstname, { expires: expiryDate });
-            Cookies.set('email', email, { expires: expiryDate });
+    const ul = document.querySelectorAll('.item');
+    for (let i = 0; i < ul.length; ++i) {
+    ul[i].addEventListener('click', (e) => {
+        e.preventDefault();
+        addItemToCart(ul[i].textContent);
+    });
+    }
+}
 
-            showWelcomeMessageOrForm();
-        }
+function countItems() {
+    let count = 0;
+    const availableItems = ['Shampoo', 'Soap', 'Sponge', 'Water'];
 
-        function showForm() {
-            let form = document.getElementById('loginForm');
-            form.style.display = 'block';
-        }
+    for (let i = 0; i < sessionStorage.length; ++i) {
+    let key = sessionStorage.key(i);
+    if (key) {
+        for (let x of availableItems) {
+        if (key == x) {
+            let item = sessionStorage.getItem(key);
 
-        function hideForm() {
-            let form = document.getElementById('loginForm');
-            form.style.display = 'none';
-        }
-
-        function deleteCookiesAndShowForm() {
-            let welcomeMessage = document.getElementById('welcomeMessage');
-            if (welcomeMessage) {
-                welcomeMessage.remove();
-            }
-            Cookies.remove('firstname');
-            Cookies.remove('email');
-            showForm();
-        }
-
-        function showWelcomeMessageOrForm() {
-            let firstname = Cookies.get('firstname');
-
-            if (!firstname) {
-                showForm();
-            } else {
-                hideForm();
-                let h1 = document.createElement('h1');
-                h1.id = 'welcomeMessage';
-                let logout = document.createElement('a');
-                logout.href = '#';
-                logout.innerHTML = '(logout)';
-                logout.style.fontWeight = 'normal';
-                logout.style.fontStyle = 'italic';
-                logout.style.marginLeft = '10px';
-                logout.onclick = deleteCookiesAndShowForm;
-                h1.innerHTML = 'Welcome: ' + firstname + '';
-                h1.appendChild(logout);
-                document.body.innerHTML = '';
-                document.body.appendChild(h1);
+            if (item !== null) {
+            count++;
             }
         }
+        }
+    }
+    }
+    return count;
+}
 
-        window.onload = showWelcomeMessageOrForm;
-    </script>
+function displayCart() {
+    const times = countItems();
 
-    <div id="loginForm">
-        <h2>Login to the website</h2>
-        <input type="text" id="firstname" placeholder="First Name">
-        <input type="text" id="email" placeholder="Email">
-        <button id="loginButton">Log me in</button>
-    </div>
+    let msg = document.createElement('p');
+    msg.innerHTML = `You previously had ${times} items in your cart`;
 
-    <script>
-        document.getElementById('loginButton').addEventListener('click', setCookiesAndShowWelcomeMessage);
+    document.body.append(msg);
+}
+
+document.addEventListener("DOMContentLoaded", function(event) {
+    if (typeof(sessionStorage) !== 'undefined') {
+        createStore();
+        displayCart();
+        } else {
+        alert('Sorry, your browser does not support Web storage. Try again with a better one');
+    }
+});
     </script>
 </body>
 </html>
