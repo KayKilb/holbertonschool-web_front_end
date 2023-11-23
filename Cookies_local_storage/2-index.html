@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="src/2-index.js"></script>
+  <title>Read Cookies</title>
+</head>
+<body>
+  <main>
+    <h1>Login to the website</h1>
+    <form id="log">
+      <input type="text" placeholder="Firstname" id="firstname" required>
+      <input type="text" placeholder="Email" id="email" required>
+      <input type="submit" value="Log me in">
+    </form>
+
+    <h1>Cookies</h1>
+    <button id="btn-show-cookie">Show the cookies</button>
+  </main>
+
+  <script>
+    function equal(string, c) {
+      for (let i = 0; i < string.length; ++i) {
+        if (string[i] == c) {
+          return (i + 1);
+        }
+      }
+      return (0);
+    }
+
+    function getCookie(cname) {
+      let name = cname + '=';
+      const decodeCookie = decodeURIComponent(document.cookie);
+      const all = decodeCookie.split(';');
+      let space = all[0].split(' ');
+
+      for (let i = 0; i < space.length; ++i) {
+        if (space[i].includes(name)) {
+          from = equal(space[i], '=');
+          to = space[i].substring(from, space[i].length);
+          return (to);
+        }
+      }
+      return ("");
+    }
+
+    function showfunc() {
+      const user = getCookie('Firstname');
+      alert('Welcome: ' + user);
+    }
+
+    function setCookies(e) {
+      const firstname = document.getElementById('firstname').value;
+      const email = document.getElementById('email').value;
+
+      let d = new Date();
+      const days = 10;
+      d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+      const date = "expires=" + d.toUTCString();
+
+      const cookie = `Email=${email} Firstname=${firstname}; ${date};path=/`;
+      document.cookie = cookie;
+    }
+
+    function showCookies(e) {
+      const p = document.createElement('p');
+      const decodeCookie = decodeURIComponent(document.cookie).split(';');
+      let txt = decodeCookie[0].split(' ');
+      txt = `${txt[0]} - ${txt[1]}`;
+      const cookies = `<strong>Cookies:</strong> ${txt.replace(/=/g, ': ')}`;
+
+      p.innerHTML = cookies;
+      document.querySelector('main').append(p);
+      showfunc();
+    }
+
+    document.addEventListener("DOMContentLoaded", function(event) {
+      const addforme = document.getElementById('log');
+      const addbtne = document.getElementById('btn-show-cookie');
+
+      addforme.addEventListener('submit', setCookies);
+      addbtne.addEventListener('click', showCookies);
+    });
+  </script>
+</body>
+</html>
