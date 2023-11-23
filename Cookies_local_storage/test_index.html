@@ -5,10 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task 3</title>
     <link rel="icon" type="image/ico" href="https://intranet.hbtn.io/favicon_black.ico">
-
 </head>
 <body>
-
     <div id="loginForm">
         <h2>Login to the website</h2>
         <input type="text" id="firstname" placeholder="First Name">
@@ -36,16 +34,20 @@
             for(let i = 0; i < cookies.length; i++) {
                 let c = cookies[i];
                 while (c.charAt(0) == ' ') {
-                c = c.substring(1);
+                    c = c.substring(1);
                 }
                 if (c.indexOf(name) == 0) {
-                return c.substring(name.length + 1);
+                    return c.substring(name.length + 1);
                 }
             }
             return "";
-            }
+        }
 
         function showForm() {
+            let welcomeMessage = document.getElementById('welcomeMessage');
+            if (welcomeMessage) {
+                welcomeMessage.remove();
+            }
             let form = document.getElementById('loginForm');
             form.style.display = 'block';
         }
@@ -56,12 +58,10 @@
         }
 
         function deleteCookiesAndShowForm() {
-            // remove welcome message
             let welcomeMessage = document.getElementById('welcomeMessage');
             if (welcomeMessage) {
                 welcomeMessage.remove();
             }
-
             document.cookie = "firstname=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             showForm();
@@ -85,6 +85,7 @@
                 logout.onclick = deleteCookiesAndShowForm;
                 h1.innerHTML = 'Welcome: ' + firstname + '';
                 h1.appendChild(logout);
+                document.body.innerHTML = '';
                 document.body.appendChild(h1);
             }
         }
