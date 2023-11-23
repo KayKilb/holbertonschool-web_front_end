@@ -81,6 +81,7 @@
       const email = getCookie("Email");
       if (name !== "" && email !== "") {
         hideForm();
+        
         let title = document.createElement('h1');
         title.id = "welcome";
         title.innerHTML = `<strong>Welcome: ${name}</strong><a id="logout" style="font-style: italic; margin-left: 10px;">(logout)</a>`;
@@ -98,7 +99,6 @@
       }
 
       let form = document.getElementById('login');
-
       if (form === null) {
         makeform();
       } else {
@@ -108,7 +108,6 @@
 
     function hideForm() {
       let form = document.getElementById('login');
-
       if (form !== null) {
         form.style.visibility = 'hidden';
       }
@@ -117,7 +116,6 @@
     function deleteCookiesAndShowForm() {
       document.cookie = "Firstname=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       document.cookie = "Email=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-
       showForm();
     }
 
